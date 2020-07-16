@@ -1,0 +1,118 @@
+\documentclass[dvipdfmx,12pt,notheorems]{beamer}
+%%%% 和文用 %%%%%
+\usepackage{bxdpx-beamer}
+\usepackage{pxjahyper}
+\usepackage{minijs}%和文用
+\renewcommand{\kanjifamilydefault}{\gtdefault}%和文用
+
+%%%% スライドの見た目 %%%%%
+\usetheme{Madrid}
+\usefonttheme{professionalfonts}
+\setbeamertemplate{frametitle}[default][center]
+\setbeamertemplate{navigation symbols}{}
+\setbeamercovered{transparent}%好みに応じてどうぞ）
+\setbeamertemplate{blocks}[rounded]
+\useinnertheme{circles}
+\setbeamertemplate{footline}[page number]
+\setbeamerfont{footline}{size=\normalsize,series=\bfseries}
+\setbeamercolor{footline}{fg=black,bg=black}
+%%%%
+
+%%%% 定義環境 %%%%%
+\usepackage{amsmath,amssymb}
+\usepackage{amsthm}
+\theoremstyle{definition}
+\newtheorem{theorem}{定理}
+\newtheorem{definition}{定義}
+\newtheorem{proposition}{命題}
+\newtheorem{lemma}{補題}
+\newtheorem{corollary}{系}
+\newtheorem{conjecture}{予想}
+\newtheorem*{remark}{Remark}
+\renewcommand{\proofname}{}
+%%%%%%%%%
+
+%%%%% フォント基本設定 %%%%%
+\usepackage[T1]{fontenc}%8bit フォント
+\usepackage{textcomp}%欧文フォントの追加
+\usepackage[utf8]{inputenc}%文字コードをUTF-8
+\usepackage[deluxe]{otf}%otfパッケージ
+\usepackage{lxfonts}%数式・英文ローマン体を Lxfont にする
+\usepackage{bm}%数式太字
+%%%%%%%%%%
+
+%%%%% PythonTeX %%%%%
+\usepackage[makestderr]{pythontex}
+\restartpythontexsession{\thesection}
+ 
+\title{How to Use In-Memory Streams}
+\author[Hayao]{Hayao Suzuki}
+\institute[PyCon JP 2020]{PyCon JP 2020}
+\date{August 28, 2020}
+
+\begin{document}
+
+\begin{frame}[plain]\frametitle{}
+\titlepage %表紙
+\end{frame}
+
+\section{Self Introduction}
+
+\begin{frame}\frametitle{Who am I ?}
+
+\begin{block}{お前誰よ}
+\begin{description}
+\item[Name] Hayao Suzuki（鈴木　駿）
+\item[Twitter] \href{https://twitter.com/CardinalXaro}{@CardinalXaro}
+\item[Work] Python Programmer at iRidge, Inc.
+\end{description}
+\end{block}
+
+\end{frame}
+
+\begin{frame}\frametitle{Who am I ?}
+
+\begin{block}{Reviewer of Technical Books}
+\begin{itemize}
+\item \structure{Effective Python 第2版}(O'Reilly Japan)
+\item \structure{動かして学ぶ量子コンピュータプログラミング}(O'Reilly Japan)
+\end{itemize}
+\end{block}
+
+\begin{block}{Talks}
+\begin{itemize}
+\item \structure{Symbolic Mathematics using SymPy}(PyCon JP 2018)
+\item \structure{Elementary Number Theory with Python}(PyCon mini Hiroshima 2019)
+\item \structure{Do you know cmath module?}(PyCon mini Shizuoka)
+\end{itemize}
+\end{block}
+Lists are here  \url{https://xaro.hatenablog.jp/}
+\end{frame}
+
+\section{built-in function: open}
+
+\begin{frame}\frametitle{Today's Theme}
+\begin{center}
+\huge{In-Memory Streams}
+\end{center}
+\end{frame}
+
+\subsection{open is useful}
+
+\subsection{open with Disk IO}
+
+\section{In-Memory Streams}
+
+\subsection{StringIO}
+
+\subsection{BytesIO}
+
+\section{Case Study}
+
+\subsection{ZIP Compression in Memory using StringIO and BytesIO}
+
+\section{Conclusion}
+
+
+
+\end{document}
