@@ -89,15 +89,65 @@
 Lists are here  \url{https://xaro.hatenablog.jp/}
 \end{frame}
 
-\section{built-in function: open}
-
 \begin{frame}\frametitle{Today's Theme}
 \begin{center}
 \huge{In-Memory Streams}
 \end{center}
 \end{frame}
 
+\section{built-in function: open}
+
+\begin{frame}\frametitle{What is a Stream?}
+
+\begin{block}{そもそもストリームって何？}
+ストリームはファイルオブジェクトである。
+\end{block}
+
+\end{frame}
+
+\begin{frame}\frametitle{What is a File Object?}
+
+\begin{block}{じゃあファイルオブジェクトって何ですか？}
+\begin{itemize}
+\item \texttt{read()}や\texttt{write()}などのメソッドを持つオブジェクト
+\item ディスク上のファイルや別の場所にあるストレージ、入出力機器とやりとりができる
+\item ファイルオブジェクトは2種類ある
+	\begin{itemize}
+	\item 生バイナリファイル
+	\item バッファ付きバイナリファイル
+	\item テキストファイル
+	\end{itemize}
+\end{itemize}
+\end{block}
+
+\end{frame}
+
 \subsection{open is useful}
+
+\begin{frame}[fragile]\frametitle{ファイルオブジェクトの作り方}
+
+\begin{exampleblock}{テキストファイルオブジェクト}
+\begin{pygments}{python}
+f = open("myfile.txt", "r", encoding="utf-8")
+\end{pygments}
+\end{exampleblock}
+
+\begin{exampleblock}{バッファ付きバイナリオブジェクト}
+\begin{pygments}{python}
+f = open("myfile.jpg", "rb")
+\end{pygments}
+\end{exampleblock}
+
+\end{frame}
+
+\begin{frame}\frametitle{\texttt{open()}は何をしているのか？}
+\begin{block}{\texttt{open()}は何をしているのか？}
+\begin{itemize}
+\item foo
+\item bar
+\end{itemize}
+\end{block}
+\end{frame}
 
 \subsection{open with Disk IO}
 
