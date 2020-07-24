@@ -70,24 +70,28 @@
 
 \end{frame}
 
-\begin{frame}\frametitle{Who am I ?}
+%\begin{frame}\frametitle{Who am I ?}
 
-\begin{block}{Reviewer of Technical Books}
-\begin{itemize}
-\item \structure{Effective Python 第2版}(O'Reilly Japan)
-\item \structure{動かして学ぶ量子コンピュータプログラミング}(O'Reilly Japan)
-\end{itemize}
-\end{block}
-
-\begin{block}{Talks}
-\begin{itemize}
-\item \structure{Symbolic Mathematics using SymPy}(PyCon JP 2018)
-\item \structure{Elementary Number Theory with Python}(PyCon mini Hiroshima 2019)
-\item \structure{Do you know cmath module?}(PyCon mini Shizuoka)
-\end{itemize}
-\end{block}
-Lists are here  \url{https://xaro.hatenablog.jp/}
-\end{frame}
+%\begin{block}{Reviewer of Technical Books}
+%\begin{itemize}
+%\item \structure{Effective Python 第2版}(O'Reilly Japan)
+%\item \structure{動かして学ぶ量子コンピュータプログラミング}(O'Reilly Japan)
+%\end{itemize}
+%\end{block}
+%
+%\end{frame}
+%
+%\begin{frame}\frametitle{Who am I ?}
+%
+%\begin{block}{Talks}
+%\begin{itemize}
+%\item \structure{Symbolic Mathematics using SymPy}(PyCon JP 2018)
+%\item \structure{Elementary Number Theory with Python}(PyCon mini Hiroshima 2019)
+%\item \structure{Do you know cmath module?}(PyCon mini Shizuoka)
+%\end{itemize}
+%\end{block}
+%Lists are here  \url{https://xaro.hatenablog.jp/}
+%\end{frame}
 
 \begin{frame}\frametitle{Today's Theme}
 \begin{center}
@@ -97,7 +101,7 @@ Lists are here  \url{https://xaro.hatenablog.jp/}
 
 \section{built-in function: open}
 
-\begin{frame}\frametitle{What is a Stream?}
+\begin{frame}\frametitle{Stream?}
 
 \begin{block}{そもそもストリームって何？}
 ストリームはファイルオブジェクトである。
@@ -105,18 +109,24 @@ Lists are here  \url{https://xaro.hatenablog.jp/}
 
 \end{frame}
 
-\begin{frame}\frametitle{What is a File Object?}
+\begin{frame}\frametitle{File Object?}
 
-\begin{block}{じゃあファイルオブジェクトって何ですか？}
+\begin{block}{ファイルオブジェクトって何？}
 \begin{itemize}
 \item \texttt{read()}や\texttt{write()}などのメソッドを持つオブジェクト
 \item ディスク上のファイルや別の場所にあるストレージ、入出力機器とやりとりができる
-\item ファイルオブジェクトは2種類ある
-	\begin{itemize}
-	\item 生バイナリファイル
-	\item バッファ付きバイナリファイル
-	\item テキストファイル
-	\end{itemize}
+\end{itemize}
+\end{block}
+
+\end{frame}
+
+\begin{frame}\frametitle{File Object?}
+
+\begin{block}{ファイルオブジェクトたち}
+\begin{itemize}
+\item 生バイナリファイル
+\item バッファ付きバイナリファイル
+\item テキストファイル
 \end{itemize}
 \end{block}
 
@@ -124,15 +134,15 @@ Lists are here  \url{https://xaro.hatenablog.jp/}
 
 \subsection{open is useful}
 
-\begin{frame}[fragile]\frametitle{ファイルオブジェクトの作り方}
+\begin{frame}[fragile]\frametitle{使い方}
 
-\begin{exampleblock}{テキストファイルオブジェクト}
+\begin{exampleblock}{テキストファイル}
 \begin{pygments}{python}
-f = open("myfile.txt", "r", encoding="utf-8")
+f = open("myfile.txt", "r")
 \end{pygments}
 \end{exampleblock}
 
-\begin{exampleblock}{バッファ付きバイナリオブジェクト}
+\begin{exampleblock}{バッファ付きバイナリ}
 \begin{pygments}{python}
 f = open("myfile.jpg", "rb")
 \end{pygments}
@@ -140,16 +150,72 @@ f = open("myfile.jpg", "rb")
 
 \end{frame}
 
-\begin{frame}\frametitle{\texttt{open()}は何をしているのか？}
-\begin{block}{\texttt{open()}は何をしているのか？}
+\subsection{open with Disk IO}
+
+\begin{frame}\frametitle{\texttt{open}関数の裏側}
+\begin{block}{\texttt{open}は何をしているのか？}
+OSのシステムコールAPIを呼ぶ
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]\frametitle{\texttt{open}関数の裏側}
+
+\begin{exampleblock}{例：CSVに加工する}
+\begin{pygments}{python}
+with open("events.csv", "w") as csv_file:
+    fieldnames = ["title", "started_at", "ended_at"]
+    writer = csv.DictWriter(csv_file, fieldnames)
+    writer.writeheader()
+    writer.writerows(events)
+\end{pygments}
+\end{exampleblock}
+
+\end{frame}
+
+\begin{frame}[fragile]\frametitle{\texttt{open}関数の裏側}
+
+\begin{exampleblock}{例：Windows}
 \begin{itemize}
-\item foo
-\item bar
+\item CreateFile（ファイルのアクセス権取得）
+\item QueryAllInformationFile（ファイル情報の取得）
+\item WriteFile（ファイルへ書き込む）
+\item CloseFile（ファイルを閉じる）
+\end{itemize}
+\end{exampleblock}
+Process Monitor経由で確認した。
+\end{frame}
+
+\begin{frame}[fragile]\frametitle{\texttt{open}関数の裏側}
+
+\begin{exampleblock}{例：Ubuntu on WSL}
+\begin{itemize}
+\item openat （ファイルのオープン）
+\item fstat（ファイル情報の取得）
+\item ioctl（デバイス制御）
+\item lseek（ファイルのシーク）
+\item brk（ブレークポイントの調整）
+\item write（ファイルへ書き込む）
+\item close（ファイルを閉じる）
+\end{itemize}
+\end{exampleblock}
+\texttt{strace}経由で確認した。
+
+\end{frame}
+
+\begin{frame}\frametitle{最後に笑うのは誰だ}
+\begin{block}{最終的な成果物はどこに置く？}
+\begin{itemize}
+\item ファイルをローカルに保存するのがゴールではない
+\item ファイルをAWS S3などの外部に置きたい
 \end{itemize}
 \end{block}
 \end{frame}
 
-\subsection{open with Disk IO}
+\begin{frame}\frametitle{Today's Theme}
+\begin{center}
+\huge{In-Memory Streams}
+\end{center}
+\end{frame}
 
 \section{In-Memory Streams}
 
