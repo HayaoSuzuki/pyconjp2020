@@ -219,7 +219,37 @@ Process Monitor経由で確認した。
 
 \section{In-Memory Streams}
 
+\begin{frame}\frametitle{インメモリーストリーム}
+\begin{block}{インメモリーストリームとは}
+\begin{itemize}
+\item \texttt{str}や\texttt{bytes}をファイルオブジェクトのように扱える
+\item 読み書き可能、ランダムアクセス可能
+\end{itemize}
+\end{block}
+\end{frame}
+
 \subsection{StringIO}
+
+\begin{frame}\frametitle{\texttt{StringIO}}
+\begin{block}{\texttt{StringIO}}
+テキストファイルのためのインメモリストリーム
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]\frametitle{\texttt{StringIO}}
+
+\begin{exampleblock}{例：CSVを\texttt{StringIO}で取り扱う}
+\begin{pygments}{python}
+import io
+with io.StringIO() as csv_file:
+    fieldnames = ["title", "started_at", "ended_at"]
+    writer = csv.DictWriter(csv_file, fieldnames)
+    writer.writeheader()
+    writer.writerows(events)
+\end{pygments}
+\end{exampleblock}
+
+\end{frame}
 
 \subsection{BytesIO}
 
