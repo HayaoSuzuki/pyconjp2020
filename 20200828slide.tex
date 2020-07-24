@@ -253,7 +253,37 @@ with io.StringIO() as csv_file:
 
 \subsection{BytesIO}
 
+\begin{frame}\frametitle{\texttt{BytesIO}}
+\begin{block}{\texttt{BytesIO}}
+バッファ付きバイナリファイルのためのインメモリストリーム
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]\frametitle{\texttt{BytesIO}}
+
+\begin{exampleblock}{例：PNGを\texttt{BytesIO}で取り扱う}
+\begin{pygments}{python}
+import io
+with io.BytesIO(png_bytes) as f:
+    png_header = f.read(8)
+    print(png_header)  # b'\x89PNG\r\n\x1a\n'
+\end{pygments}
+\end{exampleblock}
+
+\end{frame}
+
 \section{Case Study}
+
+\begin{frame}\frametitle{ケーススタディ}
+\begin{block}{取得、圧縮、アップロード}
+\begin{itemize}
+\item データをインターネット経由で取得する
+\item データを加工する
+\item データを圧縮する
+\item 圧縮データを外部ストレージにアップロードする
+\end{itemize}
+\end{block}
+\end{frame}
 
 \subsection{ZIP Compression in Memory using StringIO and BytesIO}
 
