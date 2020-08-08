@@ -1,4 +1,4 @@
-\documentclass[dvipdfmx,12pt,notheorems]{beamer}
+\documentclass[aspectratio=169,dvipdfmx,14pt,notheorems]{beamer}
 %%%% 和文用 %%%%%
 \usepackage{bxdpx-beamer}
 \usepackage{pxjahyper}
@@ -64,34 +64,34 @@
 \begin{description}
 \item[Name] Hayao Suzuki（鈴木　駿）
 \item[Twitter] \href{https://twitter.com/CardinalXaro}{@CardinalXaro}
-\item[Work] Python Programmer at iRidge, Inc.
+\item[Work] Python Programmer
 \end{description}
 \end{block}
 
 \end{frame}
 
-%\begin{frame}\frametitle{Who am I ?}
+\begin{frame}\frametitle{Who am I ?}
 
-%\begin{block}{Reviewer of Technical Books}
-%\begin{itemize}
-%\item \structure{Effective Python 第2版}(O'Reilly Japan)
-%\item \structure{動かして学ぶ量子コンピュータプログラミング}(O'Reilly Japan)
-%\end{itemize}
-%\end{block}
-%
-%\end{frame}
-%
-%\begin{frame}\frametitle{Who am I ?}
-%
-%\begin{block}{Talks}
-%\begin{itemize}
-%\item \structure{Symbolic Mathematics using SymPy}(PyCon JP 2018)
-%\item \structure{Elementary Number Theory with Python}(PyCon mini Hiroshima 2019)
-%\item \structure{Do you know cmath module?}(PyCon mini Shizuoka)
-%\end{itemize}
-%\end{block}
-%Lists are here  \url{https://xaro.hatenablog.jp/}
-%\end{frame}
+\begin{block}{Reviewer of Technical Books}
+\begin{itemize}
+\item \structure{Effective Python 第2版}(O'Reilly Japan)
+\item \structure{動かして学ぶ量子コンピュータプログラミング}(O'Reilly Japan)
+\end{itemize}
+\end{block}
+
+\end{frame}
+
+\begin{frame}\frametitle{Who am I ?}
+
+\begin{block}{Talks}
+\begin{itemize}
+\item \structure{Symbolic Mathematics using SymPy}(PyCon JP 2018)
+\item \structure{Elementary Number Theory with Python}(PyCon mini Hiroshima 2019)
+\item \structure{Do you know cmath module?}(PyCon mini Shizuoka)
+\end{itemize}
+\end{block}
+Lists are here  \url{https://xaro.hatenablog.jp/}
+\end{frame}
 
 \begin{frame}\frametitle{Today's Theme}
 \begin{center}
@@ -193,7 +193,6 @@ Process Monitor経由で確認した。
 \item fstat（ファイル情報の取得）
 \item ioctl（デバイス制御）
 \item lseek（ファイルのシーク）
-\item brk（ブレークポイントの調整）
 \item write（ファイルへ書き込む）
 \item close（ファイルを閉じる）
 \end{itemize}
@@ -281,11 +280,53 @@ with io.BytesIO(png_bytes) as f:
 \item データを加工する
 \item データを圧縮する
 \item 圧縮データを外部ストレージにアップロードする
+
 \end{itemize}
 \end{block}
 \end{frame}
 
 \subsection{ZIP Compression in Memory using StringIO and BytesIO}
+
+\begin{frame}[fragile]\frametitle{データをインターネット経由で取得する}
+
+\begin{exampleblock}{例：Connpass APIをコールする}
+\begin{pygments}{python}
+with urllib.request.urlopen(url) as response:
+    events = json.load(response)["events"]
+\end{pygments}
+\end{exampleblock}
+
+\end{frame}
+
+\begin{frame}[fragile]\frametitle{データを加工する}
+
+\begin{exampleblock}{例：APIの取得結果をCSVにする}
+\begin{pygments}{python}
+with io.StringIO() as ts:
+    header = ["title", "started_at", "ended_at"]
+    writer = csv.DictWriter(ts, fieldnames=header)
+    writer.writeheader()
+    writer.writerows(events)
+\end{pygments}
+\end{exampleblock}
+
+\end{frame}
+
+\begin{frame}[fragile]\frametitle{データを圧縮\&アップロード}
+
+\begin{exampleblock}{例：ZIPに圧縮してAWS S3にアップロード}
+\begin{pygments}{python}
+with io.BytesIO() as bs:
+    with zipfile.ZipFile(bytes_stream, "w") as zf:
+        zf.writestr("events.csv", ts.getvalue())
+    bs.seek(0)  # ファイルシークがポイント
+    s3.upload_fileobj(bs, "bucket", "events.zip")
+\end{pygments}
+\end{exampleblock}
+
+\end{frame}
+
+
 
 \section{Conclusion}
 
