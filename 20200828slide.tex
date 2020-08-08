@@ -47,8 +47,8 @@
  
 \title{How to Use In-Memory Streams}
 \author[Hayao]{Hayao Suzuki}
-\institute[PyCon JP 2020]{PyCon JP 2020}
-\date{August 28, 2020}
+\institute[PyCon JP 2020]{PyCon JP 2020 \#pyconjp\_1}
+\date{August 29, 2020}
 
 \begin{document}
 
@@ -85,12 +85,33 @@
 
 \begin{block}{Talks}
 \begin{itemize}
-\item \structure{Symbolic Mathematics using SymPy}(PyCon JP 2018)
-\item \structure{Elementary Number Theory with Python}(PyCon mini Hiroshima 2019)
-\item \structure{Do you know cmath module?}(PyCon mini Shizuoka)
+\item \structure{SymPyによる数式処理}(PyCon JP 2018)
+\item \structure{Pythonと楽しむ初等整数論}(PyCon mini Hiroshima 2019)
+\item \structure{君はcmathを知っているか}(PyCon mini Shizuoka)
 \end{itemize}
 \end{block}
-Lists are here  \url{https://xaro.hatenablog.jp/}
+\url{https://xaro.hatenablog.jp/}にリストがあります。
+\end{frame}
+
+\begin{frame}\frametitle{今日の目標}
+\begin{block}{以下のタスクをいい感じにやりたい}
+\begin{itemize}
+\item データをインターネット経由で取得する
+\item データを加工する
+\item データを圧縮する
+\item 圧縮データを外部ストレージにアップロードする
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}\frametitle{今日の目標}
+\begin{alertblock}{今回の懸念事項}
+\begin{itemize}
+\item 数GBのデータを扱う必要がある
+\item AWS ECSのスケジュールタスクで毎日実行する
+\item 複雑なツールや基盤は存在しない
+\end{itemize}
+\end{alertblock}
 \end{frame}
 
 \begin{frame}\frametitle{Today's Theme}
