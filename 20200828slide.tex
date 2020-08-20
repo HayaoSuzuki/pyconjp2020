@@ -347,10 +347,15 @@ with io.BytesIO() as bs:
 
 \end{frame}
 
-
-
 \section{Conclusion}
 
-
-
+\begin{frame}[fragile]\frametitle{Conclusion}
+\begin{block}{まとめ}
+\begin{itemize}
+\item \texttt{io}モジュールにはインメモリーストリームが含まれる。
+\item \texttt{str}や\texttt{bytes}をファイルオブジェクトのように扱うことができる。
+\item 通常の\texttt{open}と異なりシステムコールが呼ばれない。
+\end{itemize}
+\end{block}
+\end{frame}
 \end{document}
