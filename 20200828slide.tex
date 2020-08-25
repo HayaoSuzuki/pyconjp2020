@@ -64,7 +64,7 @@
 \begin{description}
 \item[Name] Hayao Suzuki（鈴木　駿）
 \item[Twitter] \href{https://twitter.com/CardinalXaro}{@CardinalXaro}
-\item[Work] Python Programmer
+\item[Work] Python Programmer at iRidge, Inc.
 \end{description}
 \end{block}
 
@@ -72,46 +72,72 @@
 
 \begin{frame}\frametitle{Who am I ?}
 
-\begin{block}{Reviewer of Technical Books}
+\begin{block}{Technical Reviewer}
 \begin{itemize}
 \item \structure{Effective Python 第2版}(O'Reilly Japan)
 \item \structure{動かして学ぶ量子コンピュータプログラミング}(O'Reilly Japan)
 \end{itemize}
 \end{block}
-
+\url{https://xaro.hatenablog.jp/}にリストがあります。
 \end{frame}
 
 \begin{frame}\frametitle{Who am I ?}
 
-\begin{block}{Talks}
+\begin{block}{Selected Talks}
 \begin{itemize}
+\item \structure{レガシーDjangoアプリケーションの現代化}(DjangoCongress JP 2018)
 \item \structure{SymPyによる数式処理}(PyCon JP 2018)
 \item \structure{Pythonと楽しむ初等整数論}(PyCon mini Hiroshima 2019)
-\item \structure{君はcmathを知っているか}(PyCon mini Shizuoka)
+\item \structure{君はcmathを知っているか}(PyCon mini Shizuoka 2020)
 \end{itemize}
 \end{block}
 \url{https://xaro.hatenablog.jp/}にリストがあります。
 \end{frame}
 
 \begin{frame}\frametitle{今日の目標}
-\begin{block}{以下のタスクをいい感じにやりたい}
+
+\begin{block}{課題の背景}
 \begin{itemize}
-\item データをインターネット経由で取得する
-\item データを加工する
-\item データを圧縮する
-\item 圧縮データを外部ストレージにアップロードする
+\item インターネット経由で数GBサイズのデータを取得し、CSVファイルに加工する
+\item クラウド上に構築した既存のシステムに追加する形で実装する
+\item 毎日実行する
 \end{itemize}
 \end{block}
+
+\begin{alertblock}{クラウドサービスは従量課金}
+なるべく迅速に処理したい！
+\end{alertblock}
 \end{frame}
 
 \begin{frame}\frametitle{今日の目標}
-\begin{alertblock}{今回の懸念事項}
+
+\begin{block}{処理の流れ}
 \begin{itemize}
-\item 数GBのデータを扱う必要がある
-\item AWS ECSのスケジュールタスクで毎日実行する
-\item 複雑なツールや基盤は存在しない
+\item インターネット経由で数GBサイズのデータを取得する
+\item 数GBサイズのデータをCSVファイルに加工する
+\item CSVファイルをZIP圧縮する
+\item ZIP圧縮データをクラウドストレージにアップロードする
 \end{itemize}
-\end{alertblock}
+\end{block}
+
+\begin{exampleblock}{分析}
+\begin{itemize}
+\item データサイズが大きい
+\item データの加工は単純な処理
+\end{itemize}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}\frametitle{今日の目標}
+
+\begin{block}{ボトルネックはどこか}
+\begin{itemize}
+\item ZIP圧縮はそれほど大変ではない
+\item データ加工は単純な処理
+\item ボトルネックはI/O処理にありそう
+\end{itemize}
+\end{block}
+何とかしてI/O処理を迅速に処理したい！！！
 \end{frame}
 
 \begin{frame}\frametitle{Today's Theme}
@@ -229,6 +255,7 @@ Process Monitor経由で確認した。
 \item ファイルをAWS S3などの外部に置きたい
 \end{itemize}
 \end{block}
+ローカルデバイスにファイルを書き込みたくない！
 \end{frame}
 
 \begin{frame}\frametitle{Today's Theme}
@@ -294,16 +321,16 @@ with io.BytesIO(png_bytes) as f:
 
 \section{Case Study}
 
-\begin{frame}\frametitle{ケーススタディ}
-\begin{block}{取得、圧縮、アップロード}
+\begin{frame}\frametitle{復習：今日の目標}
+\begin{block}{処理の流れ}
 \begin{itemize}
-\item データをインターネット経由で取得する
-\item データを加工する
-\item データを圧縮する
-\item 圧縮データを外部ストレージにアップロードする
-
+\item インターネット経由で数GBサイズのデータを取得する
+\item 数GBサイズのデータをCSVファイルに加工する
+\item CSVファイルをZIP圧縮する
+\item ZIP圧縮データをクラウドストレージにアップロードする
 \end{itemize}
 \end{block}
+
 \end{frame}
 
 \subsection{ZIP Compression in Memory using StringIO and BytesIO}
